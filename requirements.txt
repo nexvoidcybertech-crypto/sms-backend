@@ -1,0 +1,7 @@
+Flask==2.3.3
+Flask-CORS==4.0.0
+pymongo==4.5.0
+PyJWT==2.8.0
+werkzeug==2.3.7
+python-dotenv==1.0.0
+WAITRESS==2.1.2
