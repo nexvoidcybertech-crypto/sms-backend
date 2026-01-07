@@ -25,19 +25,24 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
+#part for the cors
 
-# Enhanced CORS configuration
-CORS(app, 
-     resources={
-         r"/api/*": {
-             "origins": ["http://localhost:3000", "http://localhost:5000", "http://127.0.0.1:5500"],
-             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-             "allow_headers": ["Authorization", "Content-Type", "X-Requested-With"],
-             "expose_headers": ["Authorization"],
-             "supports_credentials": True,
-             "max_age": 600
-         }
-     })
+from flask_cors import CORS
+
+CORS(
+    app,
+    resources={r"/api/*": {"origins": ["https://nexvoidsms.surge.sh"]}},
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    supports_credentials=True
+)
+#preflight----------------
+from flask import request
+
+@app.before_request
+def handle_preflight():
+    if request.method == "OPTIONS":
+        return "", 200
 
 # ------------------------
 # Configuration
@@ -2795,4 +2800,5 @@ if __name__ == '__main__':
         import traceback
         logger.error(f"❌ Failed to start server: {e}")
         logger.error(traceback.format_exc())
+
         raise
